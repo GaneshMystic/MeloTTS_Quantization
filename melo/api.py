@@ -84,6 +84,7 @@ class TTS(nn.Module):
         language = self.language
         texts = self.split_sentences_into_pieces(text, language, quiet)
         audio_list = []
+        #to show progress on screen. 
         if pbar:
             tx = pbar(texts)
         else:
