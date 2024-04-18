@@ -717,7 +717,7 @@ class ReferenceEncoder(nn.Module):
         self.proj = nn.Linear(128, gin_channels)
         if layernorm:
             self.layernorm = nn.LayerNorm(self.spec_channels)
-            print('[Ref Enc]: using layer norm')
+            print("[Ref Enc]: using layer norm")
         else:
             self.layernorm = None
 
@@ -881,9 +881,10 @@ class SynthesizerTrn(nn.Module):
         if n_speakers > 0:
             self.emb_g = nn.Embedding(n_speakers, gin_channels)
         else:
-            self.ref_enc = ReferenceEncoder(spec_channels, gin_channels, layernorm=norm_refenc)
+            self.ref_enc = ReferenceEncoder(
+                spec_channels, gin_channels, layernorm=norm_refenc
+            )
         self.use_vc = use_vc
-
 
     def forward(self, x, x_lengths, y, y_lengths, sid, tone, language, bert, ja_bert):
         if self.n_speakers > 0:
@@ -998,7 +999,7 @@ class SynthesizerTrn(nn.Module):
             sdp_ratio
         ) + self.dp(x, x_mask, g=g) * (1 - sdp_ratio)
         w = torch.exp(logw) * x_mask * length_scale
-        
+
         w_ceil = torch.ceil(w)
         y_lengths = torch.clamp_min(torch.sum(w_ceil, [1, 2]), 1).long()
         y_mask = torch.unsqueeze(commons.sequence_mask(y_lengths, None), 1).to(
@@ -1020,7 +1021,7 @@ class SynthesizerTrn(nn.Module):
         # print('max/min of o:', o.max(), o.min())
         return o, attn, y_mask, (z, z_p, m_p, logs_p)
 
-    def voice_conversion(self, y, y_lengths, sid_src, sid_tgt, tau=1.0):        
+    def voice_conversion(self, y, y_lengths, sid_src, sid_tgt, tau=1.0):
         g_src = sid_src
         g_tgt = sid_tgt
         z, m_q, logs_q, y_mask = self.enc_q(y, y_lengths, g=g_src, tau=tau)
