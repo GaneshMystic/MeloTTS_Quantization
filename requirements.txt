@@ -3,4 +3,16 @@ torch
 torchaudio
 cached_path
 transformers
-
+librosa
+cn2an
+pypinyin
+jieba
+num2words
+pykakasi
+mecab-python3
+fugashi
+pydub
+g2p_en
+anyascii
+jamo
+gruut[de,es,fr]
