@@ -1,6 +1,7 @@
 from flask import Flask, send_file, request, render_template
 from melo.api import TTS
-import torch
+import soundfile as sf
+import io
 
 app = Flask(__name__)
 
@@ -20,14 +21,17 @@ def generate_tts():
     )  # Default speed is 1.0 if not provided
     print(text_message)
 
-    # English
-    text = text_message
-    # American accent - save the file locally before sending it
-    output_path = "en-us.wav"
-    model.tts_to_file(text, speaker_ids["EN-US"], output_path, speed=speed)
+    # model.tts_to_file(
+    #     text_message, speaker_id=speaker_ids["EN-US"], speed=speed)
+    sound = model.tts_to_file(
+        text=text_message, speaker_id=speaker_ids['EN-US'], speed=speed)
+    
 
-    # Return the audio file
-    return send_file("en-us.wav", mimetype="audio/wav")
+    buffer = io.BytesIO()
+    sf.write(buffer, sound, 48000, format='WAV')
+    buffer.seek(0)
+
+    return send_file(buffer, as_attachment=True, download_name='processed.wav', mimetype='audio/wav')
 
 
 if __name__ == "__main__":
