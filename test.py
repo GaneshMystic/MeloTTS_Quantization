@@ -1,4 +1,4 @@
-from flask import Flask, send_file, request
+from flask import Flask, send_file, request, render_template
 from melo.api import TTS
 import torch
 
@@ -6,8 +6,8 @@ app = Flask(__name__)
 
 # CPU is sufficient for real-time inference.
 # You can set it manually to 'cpu' or 'cuda' or 'cuda:0' or 'mps'
-device = "auto"  # Will automatically use GPU if available
-model = TTS(language="EN_V3", device=device)
+device = "cuda"  # Will automatically use GPU if available
+model = TTS(language="EN", device=device)
 speaker_ids = model.hps.data.spk2id
 
 

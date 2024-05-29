@@ -16,3 +16,4 @@ g2p_en
 anyascii
 jamo
 gruut[de,es,fr]
+unidic-lite

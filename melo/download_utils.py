@@ -45,6 +45,7 @@ LANG_TO_HF_REPO_ID = {
 
 
 def load_or_download_config(locale, use_hf=True, config_path=None):
+    print(config_path)
     if config_path is None:
         language = locale.split("-")[0].upper()
         if use_hf:
@@ -59,6 +60,7 @@ def load_or_download_config(locale, use_hf=True, config_path=None):
 
 
 def load_or_download_model(locale, device, use_hf=True, ckpt_path=None):
+    print(ckpt_path)
     if ckpt_path is None:
         language = locale.split("-")[0].upper()
         if use_hf:
