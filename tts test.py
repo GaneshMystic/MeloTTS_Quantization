@@ -4,7 +4,7 @@ import torch
 
 
 device = "cuda"  # Will automatically use GPU if available
-model = TTS(language="EN_V3", device=device)
+model = TTS(language="EN", device=device)
 speaker_ids = model.hps.data.spk2id
 
 
