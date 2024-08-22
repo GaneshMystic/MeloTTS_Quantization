@@ -20,6 +20,11 @@ def get_bert_feature(text, word2ph, device=None):
         model = AutoModelForMaskedLM.from_pretrained(model_id).to(
             device
         )
+        if device != "cuda":
+            quantized_model = torch.quantization.quantize_dynamic(
+                model, {torch.nn.Linear}, dtype=torch.qint8
+            )
+            model = quantized_model
     with torch.no_grad():
         inputs = tokenizer(text, return_tensors="pt")
         for i in inputs:

@@ -2,9 +2,12 @@ from flask import Flask, request
 from flask import Flask, send_file, request, render_template
 from melo.api import TTS
 from datetime import datetime
+from flask_cors import CORS
 
 app = Flask(__name__)
-device = "cuda" 
+CORS(app, origins=["http://localhost:3000"], allow_methods=["GET", "POST", "PUT", "DELETE"],
+     allow_headers=["Content-Type", "Authorization"])
+device = "cuda"
 model = TTS(language="EN", device=device)
 speaker_ids = model.hps.data.spk2id
 
@@ -14,8 +17,7 @@ def generate_tts():
     input_text = request.args.get("text")
     speed = float(
         request.args.get("speed", 1.0)
-    )  
-    
+    )
     audio = model.tts_to_file(
         text=input_text, speaker_id=speaker_ids['EN-US'],  speed=speed, buffer=True)
     print(audio)
