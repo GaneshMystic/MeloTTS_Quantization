@@ -1,19 +1,29 @@
-txtsplit
-torch
-torchaudio
-cached_path
-transformers
-librosa
-cn2an
-pypinyin
-jieba
-num2words
-pykakasi
-mecab-python3
-fugashi
-pydub
-g2p_en
-anyascii
-jamo
-gruut[de,es,fr]
-unidic-lite
+
+
+torch 
+torchaudio 
+g2p-en 
+gruut 
+
+
+# pip uninstall txtsplit transformers librosa cn2an pypinyin jieba num2words pykakasi mecab-python3 fugashi pydub anyascii jamo unidic
+
+# txtsplit
+# transformers
+# librosa
+# cn2an
+# pypinyin
+# jieba
+# num2words
+# pykakasi
+# mecab-python3
+# fugashi
+# pydub
+# anyascii
+# jamo
+# unidic-
+# torch
+# torchaudio
+# cached_path
+# g2p_en
+# gruut[de,es,fr]
