@@ -9,5 +9,6 @@ build/
 
 *.zip
 *.wav
+*.onnx
 myenv/
 *melo-venv/

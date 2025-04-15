@@ -28,7 +28,8 @@ class TTS(nn.Module):
             assert torch.cuda.is_available()
 
         # config_path =
-        hps = load_or_download_config(language, use_hf=use_hf, config_path=config_path)
+        hps = load_or_download_config(
+            language, use_hf=use_hf, config_path=config_path)
 
         num_languages = hps.num_languages
         num_tones = hps.num_tones
@@ -57,9 +58,7 @@ class TTS(nn.Module):
         self.model.load_state_dict(checkpoint_dict["model"], strict=True)
 
         language = language.split("_")[0]
-        self.language = (
-            "ZH_MIX_EN" if language == "ZH" else language
-        )  # we support a ZH_MIX_EN model
+        self.language = language
 
     @staticmethod
     def audio_numpy_concat(segment_data_list, sr, speed=1.0):
@@ -83,13 +82,13 @@ class TTS(nn.Module):
         self,
         text,
         speaker_id,
-        output_path:str=None,
+        output_path: str = None,
         sdp_ratio: float = 0.2,
         noise_scale: float = 0.6,
         noise_scale_w: float = 0.8,
-        speed:float=1.0,
+        speed: float = 1.0,
         format=None,
-        quiet:bool=False,
+        quiet: bool = False,
         buffer: bool = False
     ):
         language = self.language
@@ -112,7 +111,7 @@ class TTS(nn.Module):
                 del phones
                 speakers = torch.LongTensor([speaker_id]).to(device)
                 audio = (
-                    self.model.infer(
+                    self.model.forward(
                         x_tst,
                         x_tst_lengths,
                         speakers,
@@ -137,21 +136,21 @@ class TTS(nn.Module):
             audio_list, sr=self.hps.data.sampling_rate, speed=speed
         )
 
-
-
         if buffer:
-            
+
             sound_buffer = io.BytesIO()
             sound_buffer.name = "speech_output.wav"
             soundfile.write(sound_buffer, audio,
                             self.hps.data.sampling_rate, format='WAV')
             sound_buffer.seek(0)
             return sound_buffer
-        
+
         elif output_path is None:
             return audio
         else:
             if format:
-                soundfile.write(output_path, audio, self.hps.data.sampling_rate, format=format)
+                soundfile.write(output_path, audio,
+                                self.hps.data.sampling_rate, format=format)
             else:
-                soundfile.write(output_path, audio, self.hps.data.sampling_rate)
+                soundfile.write(output_path, audio,
+                                self.hps.data.sampling_rate)

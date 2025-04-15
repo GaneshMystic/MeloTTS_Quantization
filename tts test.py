@@ -3,7 +3,7 @@ from melo.api import TTS
 import torch
 
 
-device = "cuda"  # Will automatically use GPU if available
+device = "cpu"  # Will automatically use GPU if available
 model = TTS(language="EN", device=device)
 speaker_ids = model.hps.data.spk2id
 

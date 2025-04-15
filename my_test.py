@@ -5,7 +5,7 @@ from datetime import datetime
 from flask_cors import CORS
 
 app = Flask(__name__)
-CORS(app, origins=["http://localhost:3000"], allow_methods=["GET", "POST", "PUT", "DELETE"],
+CORS(app, origins=["http://localhost:3000"], allow_methods=["GET", "POST"],
      allow_headers=["Content-Type", "Authorization"])
 device = "cuda"
 model = TTS(language="EN", device=device)
